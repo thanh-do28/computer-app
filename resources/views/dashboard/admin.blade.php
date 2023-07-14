@@ -16,24 +16,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     }
   </script>
   <!-- bootstrap-css -->
-  <link rel="stylesheet" href="dashboard/css/bootstrap.min.css">
+  <link rel="stylesheet" href={{ url("dashboard/css/bootstrap.min.css") }}>
   <!-- //bootstrap-css -->
   <!-- Custom CSS -->
-  <link href="dashboard/css/style.css" rel='stylesheet' type='text/css' />
-  <link href="dashboard/css/style-responsive.css" rel="stylesheet" />
+  <link href={{ url("dashboard/css/style.css") }} rel='stylesheet' type='text/css' />
+  <link href={{ url("dashboard/css/style-responsive.css") }} rel="stylesheet" />
   <!-- font CSS -->
   <link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
   <!-- font-awesome icons -->
-  <link rel="stylesheet" href="dashboard/css/font.css" type="text/css" />
-  <link href="dashboard/css/font-awesome.css" rel="stylesheet">
-  <link rel="stylesheet" href="dashboard/css/morris.css" type="text/css" />
+  <link rel="stylesheet" href={{ url("dashboard/css/font.css") }} type="text/css" />
+  <link href={{ url("dashboard/css/font-awesome.css") }} rel="stylesheet">
+  <link rel="stylesheet" href={{ url("dashboard/css/morris.css") }} type="text/css" />
   <!-- calendar -->
-  <link rel="stylesheet" href="dashboard/css/monthly.css">
+  <link rel="stylesheet" href={{ url("dashboard/css/monthly.css") }}>
   <!-- //calendar -->
   <!-- //font-awesome icons -->
-  <script src="dashboard/js/jquery2.0.3.min.js"></script>
-  <script src="dashboard/js/raphael-min.js"></script>
-  <script src="dashboard/js/morris.js"></script>
+  <script src={{ url("dashboard/js/jquery2.0.3.min.js") }}></script>
+  <script src={{ url("dashboard/js/raphael-min.js") }}></script>
+  <script src={{ url("dashboard/js/morris.js") }}></script>
 </head>
 
 <body>
@@ -134,7 +134,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
               </li>
               <li>
                 <a href="#">
-                  <span class="photo"><img alt="avatar" src="images/3.png"></span>
+                  <span class="photo"><img alt="avatar" src={{ url("images/3.png") }}></span>
                   <span class="subject">
                     <span class="from">Jonathan Smith</span>
                     <span class="time">Just now</span>
@@ -237,14 +237,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
           <!-- user login dropdown start-->
           <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-              <img alt="" src="dashboard/images/2.png">
-              <span class="username">thanhdo</span>
+              <img alt="" src={{ url("dashboard/images/2.png") }}>
+              <span class="username">{{ Auth::user()->name }}</span>
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu extended logout">
               <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
               <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-              <li><a href="{{ route('login') }}"><i class="fa fa-key"></i> Log Out</a></li>
+              <li><a href="{{ route('logout') }}"><i class="fa fa-key"></i> Log Out</a></li>
             </ul>
           </li>
           <!-- user login dropdown end -->
@@ -273,35 +273,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <span>product portfolio</span>
               </a>
               <ul class="sub">
-                <li><a href="typography.html">more products</a></li>
-                <li><a href="glyphicon.html">list of products</a></li>
+                <li><a href="{{ route('add-category-products') }}">more products</a></li>
+                <li><a href="{{ route('all-category-products') }}">list of products</a></li>
               </ul>
-            </li>
-            <li>
-              <a href="fontawesome.html">
-                <i class="fa fa-bullhorn"></i>
-                <span>Font awesome </span>
-              </a>
             </li>
             <li class="sub-menu">
               <a href="javascript:;">
                 <i class="fa fa-th"></i>
-                <span>Data Tables</span>
+                <span>Product brands</span>
               </a>
               <ul class="sub">
-                <li><a href="basic_table.html">Basic Table</a></li>
-                <li><a href="responsive_table.html">Responsive Table</a></li>
+                <li><a href="{{ route('add-brand-products') }}">More product brands</a></li>
+                <li><a href="{{ route('all-brand-products') }}">List product brands</a></li>
               </ul>
             </li>
             <li class="sub-menu">
               <a href="javascript:;">
-                <i class="fa fa-tasks"></i>
-                <span>Form Components</span>
+                <i class="fa fa-th"></i>
+                <span>Products</span>
               </a>
               <ul class="sub">
-                <li><a href="form_component.html">Form Elements</a></li>
-                <li><a href="form_validation.html">Form Validation</a></li>
-                <li><a href="dropzone.html">Dropzone</a></li>
+                <li><a href="{{ route('add-products') }}">More product</a></li>
+                <li><a href="{{ route('all-products') }}">List products</a></li>
               </ul>
             </li>
             <li class="sub-menu">
@@ -341,6 +334,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       <section class="wrapper">
 
 		@yield('admin_home')
+    @yield('admin_category')
+    @yield('admin_brand')
+    @yield('admin_products')
 
       </section>
       <!-- footer -->
@@ -353,13 +349,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </section>
     <!--main content end-->
   </section>
-  <script src="dashboard/js/bootstrap.js"></script>
-  <script src="dashboard/js/jquery.dcjqaccordion.2.7.js"></script>
-  <script src="dashboard/js/scripts.js"></script>
-  <script src="dashboard/js/jquery.slimscroll.js"></script>
-  <script src="dashboard/js/jquery.nicescroll.js"></script>
-  <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
-  <script src="dashboard/js/jquery.scrollTo.js"></script>
+  <script src={{ url("dashboard/js/bootstrap.js") }}></script>
+  <script src={{ url("dashboard/js/jquery.dcjqaccordion.2.7.js") }}></script>
+  <script src={{ url("dashboard/js/scripts.js") }}></script>
+  <script src={{ url("dashboard/js/jquery.slimscroll.js") }}></script>
+  <script src={{ url("dashboard/js/jquery.nicescroll.js") }}></script>
+  <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js") }}></script><![endif]-->
+  <script src={{ url("dashboard/js/jquery.scrollTo.js") }}></script>
   <!-- morris JavaScript -->
   <script>
     $(document).ready(function() {
@@ -461,7 +457,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     });
   </script>
   <!-- calendar -->
-  <script type="text/javascript" src="dashboard/js/monthly.js"></script>
+  <script type="text/javascript" src={{ url("dashboard/js/monthly.js") }}></script>
   <script type="text/javascript">
     $(window).load(function() {
 

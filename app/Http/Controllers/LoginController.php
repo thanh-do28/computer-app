@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\Events\Validated;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 use App\Http\Controllers\AdminController;
@@ -23,42 +23,31 @@ class LoginController extends Controller
         $this->AdminController = new AdminController;
     }
 
-    // public function validates($data)
-    // {
-    //     return Validated::make($data, []);
-    // }
-
     public function index(Request $request)
     {
-        if ($request->method('post')) {
-            $user_token = $request->_token;
-            $user_email = $request->Email;
-            $user_pass = $request->Password;
-        }
+
         return view('login');
     }
 
-    // public function user_login(Request $request)
-    // {
-    //     $user_token = $request->_token;
-    //     $user_email = $request->Email;
-    //     $user_pass = $request->Password;
+    public function user_login(Request $request)
+    {
+        // dd($request);
+        $validete = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-
-    //     $admin_login_email = DB::table('users')->where('email', $user_email)->value('email');
-    //     if (isset($admin_login_email)) {
-    //         echo $admin_login_email;
-    //     } else {
-    //         Session::put('error_login_mess', 'email is not correct');
-    //         return redirect()->route("login");
-    //     }
-    //     // ->where('password', $user_pass)->where('role', 'admin')->first();
-    //     // if (isset($admin_login)) {
-    //     //     return redirect()->route('admin');
-    //     //     // echo "thaychisnh";
-
-    //     // } else {
-    //     //     echo "sai";
-    //     // }
-    // }
+        if ($validete->fails()) {
+            return back();
+        }
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'role' => "admin"])) {
+            // dd(11111);
+            return redirect()->route("admin");
+        } elseif (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'role' => "user"])) {
+            return redirect()->route("/");
+        } else {
+            return redirect()->route('login')->withInput()->withErrors('email and password không đúng');
+        }
+        return back()->withInput();
+    }
 }
