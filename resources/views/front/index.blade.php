@@ -30,33 +30,6 @@
 <body>
   <header id="header">
     <!--header-->
-    <div class="header_top">
-      <!--header_top-->
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="contactinfo">
-              <ul class="nav nav-pills">
-                <li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-                <li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="social-icons pull-right">
-              <ul class="nav navbar-nav">
-                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--/header_top-->
 
     <div class="header-middle">
       <!--header-middle-->
@@ -96,8 +69,29 @@
                 <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
                 <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
                 <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                <li><a href="{{ route('logout') }}"><i class="fa fa-lock"></i> Login</a></li>
+                <li><a href="{{ route('cart-user') }}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                <?php if(Auth::user()) { ?>
+                <li class="dropdown-user">
+                  <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <?php if (Auth::user()->images == null) { ?>
+                    <img alt="" src={{ url("upload/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png") }}>
+                    <?php } else { ?>
+                    <img alt="" src={{ url("upload/user_image"). "/". Auth::user()->images }}>
+                    <?php } ?>
+
+                    <span class="username">
+                      {{ Auth::user()->name }}</span>
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu extended logout">
+                    <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
+                    <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
+                    <li><a href="{{ route('user-logout') }}"><i class="fa fa-key"></i> Log Out</a></li>
+                  </ul>
+                </li>
+                <?php } else { ?>
+                <li><a href="{{ route('login') }}"><i class="fa fa-lock"></i> Login</a></li>
+                <?php } ?>
               </ul>
             </div>
           </div>
@@ -127,12 +121,12 @@
                     <li><a href="shop.html">Products</a></li>
                     <li><a href="product-details.html">Product Details</a></li>
                     <li><a href="checkout.html">Checkout</a></li>
-                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="#">Cart</a></li>
                     <li><a href="login.html">Login</a></li>
                   </ul>
                 </li>
                 <li class="dropdown"><a href="#">Tin tức<i class="fa fa-angle-down"></i></a></li>
-                <li><a href="404.html">Giỏ hàng</a></li>
+                <li><a href="{{ route('cart-user') }}">Giỏ hàng</a></li>
                 <li><a href="contact-us.html">Liên hệ</a></li>
               </ul>
             </div>
@@ -436,6 +430,53 @@
   </footer>
   <!--/Footer-->
 
+  <!-- exampleModalCenter -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Errors</h5>
+          <button type="button" class="close btn-login-add-close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Hãy đăng nhập để mua hàng
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <a href="{{ route('login') }}" class="btn btn-primary btn-login-add">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- exampleModal -->
+  <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <form action="{{ route('add-to-cart') }}" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">thông báo</h5>
+            <button type="button" class="close btn-login-add-close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            bạn có muốn thêm vào giỏ hàng không
+            {{ csrf_field() }}
+            <input name="cart_qty" type="hidden" min="1" value="" />
+            <input name="productid_id" type="hidden" value="" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="submit" class="btn btn-primary btn-login-add">Yes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 
   <script src={{ url("front/js/jquery.js") }}></script>
@@ -444,6 +485,50 @@
   <script src={{ url("front/js/price-range.js") }}></script>
   <script src={{ url("front/js/jquery.prettyPhoto.js") }}></script>
   <script src={{ url("front/js/main.js") }}></script>
+  <script>
+    $('#exampleModal').on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+    })
+
+    $('#cartModal').on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget)
+      var recipient = button.data('whatever')
+      var qty = $('input[name=qty]').val()
+      var productid_hidden = $('input[name=productid_hidden]').val()
+      var modal = $(this)
+      $('input[name=cart_qty]').val(qty)
+      $('input[name=productid_id]').val(productid_hidden)
+    })
+
+    $(document).ready(function() {
+      $(".cart_qty_up").click(function() {
+        const id = $(this).attr("cart_id_user")
+        let val = $(`#${id}`).val()
+        var qty_up = Number(val) + 1;
+
+        $(`#${id}`).val(qty_up)
+
+      })
+      $(".cart_qty_down").click(function() {
+        const id = $(this).attr("cart_id_user")
+        let val = $(`#${id}`).val()
+        if (val > 0) {
+          var qty_up = Number(val) - 1;
+          $(`#${id}`).val(qty_up)
+        }
+        else{
+          $(`#${id}`).val(0)
+        }
+      })
+    })
+  </script>
+
+
+
 </body>
 
 </html>

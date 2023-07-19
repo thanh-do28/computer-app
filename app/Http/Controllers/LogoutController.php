@@ -7,10 +7,16 @@ use Illuminate\Support\Facades\Auth;
 
 class LogoutController extends Controller
 {
-    public function user_logout(Request $request)
+    public function admin_logout(Request $request)
     {
         // dd($request);
         Auth::logout();
         return redirect()->route('login');
+    }
+    public function user_logout(Request $request)
+    {
+        // dd($request);
+        Auth::logout();
+        return redirect()->route('/');
     }
 }

@@ -23,7 +23,7 @@ class LoginController extends Controller
         $this->AdminController = new AdminController;
     }
 
-    public function index(Request $request)
+    public function index()
     {
 
         return view('login');
@@ -41,7 +41,6 @@ class LoginController extends Controller
             return back();
         }
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'role' => "admin"])) {
-            // dd(11111);
             return redirect()->route("admin");
         } elseif (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'role' => "user"])) {
             return redirect()->route("/");

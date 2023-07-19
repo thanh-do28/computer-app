@@ -11,7 +11,7 @@ use App\Http\Controllers\BrandsProductController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\HomeshowproductsController;
 use Illuminate\Support\Facades\Request;
-
+use App\Http\Controllers\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,6 +84,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/delete-products/{id}', [ProductsController::class, 'delete_products'])->name('delete-products');
         Route::post('/update-products/{id}', [ProductsController::class, 'update_products'])->name('update-products');
     });
+    Route::prefix('/home')->group(function () {
+        Route::post('/add-to-cart', [CartController::class, 'add_to_cart'])->name('add-to-cart');
+    });
+});
+
+Route::prefix('/home')->group(function () {
+    Route::get('/cart-user', [CartController::class, 'index'])->name('cart-user');
 });
 
 
@@ -91,7 +98,9 @@ Route::middleware(['auth'])->group(function () {
 
 // login
 // Route::get('/login', [LoginController::class, 'index'])->name("login");
-Route::get('/logout', [LogoutController::class, 'user_logout'])->name('logout');
+Route::get('/admin-logout', [LogoutController::class, 'admin_logout'])->name('admin-logout');
+Route::get('/user-logout', [LogoutController::class, 'user_logout'])->name('user-logout');
+
 // Route::post('/login', [LoginController::class, 'user_login'])->name("login");
 
 

@@ -34,20 +34,44 @@
     <div class="col-sm-7">
       <div class="product-information">
         <!--/product-information-->
-        <h2>{{ $product_details->product_name }}</h2>
-        <p>{{ $product_details->product_id }}</p>
-        <span>
-          <span>US {{ $product_details->product_price }}</span>
-          <label>Quantity:</label>
-          <input type="number" min="1" value="1" />
-          <button type="button" class="btn btn-fefault cart">
-            <i class="fa fa-shopping-cart"></i>
-            Add to cart
-          </button>
-        </span>
+        <h2>
+          {{ $product_details->product_name }}
+        </h2>
+        <p>Mã ID :
+          {{ $product_details->product_id }}
+        </p>
+
+        {{-- <form action="{{ route('add-to-cart') }}" method="POST">
+          {{ csrf_field() }} --}}
+          <span>
+            <span>US $
+              {{ number_format($product_details->product_price) }}</span>
+            <label>Quantity:</label>
+            <input name="qty" type="number" min="1" value="1" />
+            <input name="productid_hidden" type="hidden" value="{{ $product_details->product_id }}" />
+            <?php if (Auth::user()) { ?>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cartModal">
+                <i class="fa fa-shopping-cart"></i>
+                Add to cart
+              </button>
+            <?php } else { ?>
+              <button type="button" class="btn btn-fefault cart" data-toggle="modal" data-target="#exampleModalCenter">
+                <i class="fa fa-shopping-cart"></i>
+                Add to cart
+              </button>
+            <?php } ?>
+
+          </span>
+        {{-- </form> --}}
+
         <p><b>Availability:</b> In Stock</p>
         <p><b>Condition:</b> New</p>
-        <p><b>Brand:</b> E-SHOPPER</p>
+        <p><b>Brand:</b>
+          {{ $product_details->brand_name }}
+        </p>
+        <p><b>Categoty:</b>
+          {{ $product_details->category_name }}
+        </p>
       </div>
       <!--/product-information-->
     </div>
@@ -56,50 +80,25 @@
     <!--category-tab-->
     <div class="col-sm-12">
       <ul class="nav nav-tabs">
-        <li><a href="#details" data-toggle="tab">Details</a></li>
+        <li class="active"><a href="#details" data-toggle="tab">Mô tả</a></li>
         <li>
-          <a href="#companyprofile" data-toggle="tab">Company Profile</a>
+          <a href="#companyprofile" data-toggle="tab">Chi tiết sản phẩm</a>
         </li>
-        <li class="active">
+        <li>
           <a href="#reviews" data-toggle="tab">Reviews (5)</a>
         </li>
       </ul>
     </div>
     <div class="tab-content">
-      <div class="tab-pane fade" id="details">
-        <div class="col-sm-3">
-          <div class="product-image-wrapper">
-            <div class="single-products">
-              <div class="productinfo text-center">
-                <img src="images/home/gallery4.jpg" alt="" />
-                <h2>$56</h2>
-                <p>Easy Polo Black Edition</p>
-                <button type="button" class="btn btn-default add-to-cart">
-                  <i class="fa fa-shopping-cart"></i>Add to cart
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="tab-pane fade active in" id="details">
+        <p>{!!$product_details->product_desc!!}</p>
       </div>
 
       <div class="tab-pane fade" id="companyprofile">
-        <div class="col-sm-3">
-          <div class="product-image-wrapper">
-            <div class="single-products">
-              <div class="productinfo text-center">
-                <img src="images/home/gallery4.jpg" alt="" />
-                <h2>$56</h2>
-                <p>Easy Polo Black Edition</p>
-                <button type="button" class="btn btn-default add-to-cart">
-                  <i class="fa fa-shopping-cart"></i>Add to cart
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p>{!!$product_details->product_content!!}</p>
       </div>
-      <div class="tab-pane fade active in" id="reviews">
+
+      <div class="tab-pane fade " id="reviews">
         <div class="col-sm-12">
           <ul>
             <li>
