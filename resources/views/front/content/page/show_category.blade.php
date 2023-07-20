@@ -20,7 +20,17 @@
           <p>
             {{ $product->product_name }}
           </p>
-          <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+          <?php if (Auth::user()) { ?>
+            <button type="button" class="btn btn-primary" productID="{{ $product->product_id }}" data-toggle="modal" data-target="#cartModal">
+              <i class="fa fa-shopping-cart"></i>
+              Add to cart
+            </button>
+          <?php } else { ?>
+            <button type="button" class="btn btn-fefault cart" data-toggle="modal" data-target="#exampleModalCenter">
+              <i class="fa fa-shopping-cart"></i>
+              Add to cart
+            </button>
+          <?php } ?>
         </div>
       </div>
       <div class="choose">

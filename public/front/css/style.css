@@ -61,3 +61,13 @@
     width: 3rem;
     text-align: center;
 }
+
+.tr_cart p {
+    margin: 0 !important;
+}
+.cart_delete button {
+    background: #f0f0e9;
+    color: #ffffff;
+    padding: 3px 7px;
+    border: none;
+}

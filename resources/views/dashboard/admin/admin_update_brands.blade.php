@@ -33,7 +33,6 @@
                   <button type="submit" name="update_brand_products" class="btn btn-info">Update</button>
                   <a href="{{ route('all-brand-products') }}" class="btn btn-info bg-danger">return</a>
               </div>
-  
             </form>
           </div>
   

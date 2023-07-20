@@ -48,22 +48,22 @@
               {{ number_format($product_details->product_price) }}</span>
             <label>Quantity:</label>
             <input name="qty" type="number" min="1" value="1" />
-            <input name="productid_hidden" type="hidden" value="{{ $product_details->product_id }}" />
-            <?php if (Auth::user()) { ?>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cartModal">
-                <i class="fa fa-shopping-cart"></i>
-                Add to cart
-              </button>
-            <?php } else { ?>
-              <button type="button" class="btn btn-fefault cart" data-toggle="modal" data-target="#exampleModalCenter">
-                <i class="fa fa-shopping-cart"></i>
-                Add to cart
-              </button>
-            <?php } ?>
-
+            {{-- <input name="productid_hidden" type="hidden" value="{{ $product_details->product_id }}" /> --}}
           </span>
         {{-- </form> --}}
-
+        <p>
+          <?php if (Auth::user()) { ?>
+            <button type="button" class="btn btn-primary" productID="{{ $product_details->product_id }}" data-toggle="modal" data-target="#cartModal">
+              <i class="fa fa-shopping-cart"></i>
+              Add to cart
+            </button>
+          <?php } else { ?>
+            <button type="button" class="btn btn-fefault cart" data-toggle="modal" data-target="#exampleModalCenter">
+              <i class="fa fa-shopping-cart"></i>
+              Add to cart
+            </button>
+          <?php } ?>
+        </p>
         <p><b>Availability:</b> In Stock</p>
         <p><b>Condition:</b> New</p>
         <p><b>Brand:</b>
@@ -139,4 +139,5 @@
     </div>
   </div>
 </div>
+
 @endsection

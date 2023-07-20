@@ -37,7 +37,7 @@
         <div class="row">
           <div class="col-sm-4">
             <div class="logo pull-left">
-              <a href="index.html"><img src="front/images/home/logo.png" alt="" /></a>
+              <a href="index.html"><img src="{{ url("front/images/home/logo.png") }}" alt="" /></a>
             </div>
             <div class="btn-group pull-right">
               <div class="btn-group">
@@ -164,8 +164,8 @@
                   <button type="button" class="btn btn-default get">Get it now</button>
                 </div>
                 <div class="col-sm-6">
-                  <img src="front/images/home/girl1.jpg" class="girl img-responsive" alt="" />
-                  <img src="front/images/home/pricing.png" class="pricing" alt="" />
+                  <img src="{{ url("front/images/home/girl1.jpg") }}" class="girl img-responsive" alt="" />
+                  <img src="{{ url("front/images/home/pricing.png") }}" class="pricing" alt="" />
                 </div>
               </div>
               <div class="item">
@@ -176,8 +176,8 @@
                   <button type="button" class="btn btn-default get">Get it now</button>
                 </div>
                 <div class="col-sm-6">
-                  <img src="front/images/home/girl2.jpg" class="girl img-responsive" alt="" />
-                  <img src="front/images/home/pricing.png" class="pricing" alt="" />
+                  <img src="{{ url("front/images/home/girl2.jpg") }}" class="girl img-responsive" alt="" />
+                  <img src="{{ url("front/images/home/pricing.png") }}" class="pricing" alt="" />
                 </div>
               </div>
 
@@ -189,8 +189,8 @@
                   <button type="button" class="btn btn-default get">Get it now</button>
                 </div>
                 <div class="col-sm-6">
-                  <img src="front/images/home/girl3.jpg" class="girl img-responsive" alt="" />
-                  <img src="front/images/home/pricing.png" class="pricing" alt="" />
+                  <img src="{{ url("front/images/home/girl3.jpg") }}" class="girl img-responsive" alt="" />
+                  <img src="{{ url("front/images/home/pricing.png") }}" class="pricing" alt="" />
                 </div>
               </div>
 
@@ -255,7 +255,7 @@
 
             <div class="shipping text-center">
               <!--shipping-->
-              <img src="front/images/home/shipping.jpg" alt="" />
+              <img src="{{ url("front/images/home/shipping.jpg") }}" alt="" />
             </div>
             <!--/shipping-->
 
@@ -286,7 +286,7 @@
               <div class="video-gallery text-center">
                 <a href="#">
                   <div class="iframe-img">
-                    <img src="front/images/home/iframe1.png" alt="" />
+                    <img src="{{ url("front/images/home/iframe1.png") }}" alt="" />
                   </div>
                   <div class="overlay-icon">
                     <i class="fa fa-play-circle-o"></i>
@@ -301,7 +301,7 @@
               <div class="video-gallery text-center">
                 <a href="#">
                   <div class="iframe-img">
-                    <img src="front/images/home/iframe2.png" alt="" />
+                    <img src="{{ url("front/images/home/iframe2.png") }}" alt="" />
                   </div>
                   <div class="overlay-icon">
                     <i class="fa fa-play-circle-o"></i>
@@ -316,7 +316,7 @@
               <div class="video-gallery text-center">
                 <a href="#">
                   <div class="iframe-img">
-                    <img src="front/images/home/iframe3.png" alt="" />
+                    <img src="{{ url("front/images/home/iframe3.png") }}" alt="" />
                   </div>
                   <div class="overlay-icon">
                     <i class="fa fa-play-circle-o"></i>
@@ -331,7 +331,7 @@
               <div class="video-gallery text-center">
                 <a href="#">
                   <div class="iframe-img">
-                    <img src="front/images/home/iframe4.png" alt="" />
+                    <img src="{{ url("front/images/home/iframe4.png") }}" alt="" />
                   </div>
                   <div class="overlay-icon">
                     <i class="fa fa-play-circle-o"></i>
@@ -344,7 +344,7 @@
           </div>
           <div class="col-sm-3">
             <div class="address">
-              <img src="front/images/home/map.png" alt="" />
+              <img src="{{ url("front/images/home/map.png") }}" alt="" />
               <p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
             </div>
           </div>
@@ -430,7 +430,7 @@
   </footer>
   <!--/Footer-->
 
-  <!-- exampleModalCenter -->
+  <!-- thong bao dang nhap -->
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -452,7 +452,7 @@
   </div>
 
 
-  <!-- exampleModal -->
+  <!-- thong bao them gio hang -->
   <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -496,9 +496,10 @@
 
     $('#cartModal').on('show.bs.modal', function(event) {
       var button = $(event.relatedTarget)
+      const productid_hidden = button.attr("productID")
       var recipient = button.data('whatever')
       var qty = $('input[name=qty]').val()
-      var productid_hidden = $('input[name=productid_hidden]').val()
+      // var productid_hidden = $('input[name=productid_hidden]').val()
       var modal = $(this)
       $('input[name=cart_qty]').val(qty)
       $('input[name=productid_id]').val(productid_hidden)
@@ -519,12 +520,25 @@
         if (val > 0) {
           var qty_up = Number(val) - 1;
           $(`#${id}`).val(qty_up)
-        }
-        else{
+        } else {
           $(`#${id}`).val(0)
         }
       })
     })
+
+    function checkboxCartUser(id) {
+      var checkBox = document.getElementById(`checkbox-cart-user${id}`);
+      if (checkBox.checked == true) {
+        let val = $(`#${id}`).val()
+        let val2 = $(`#cart_total_price${id}`).attr("price_cart_user")
+        console.log(val,"aa",val2);
+      } else {
+        let val = $(`#${id}`).val()
+        let val2 = $(`#cart_total_price${id}`).attr("price_cart_user")
+        console.log("false",val,"bb",val2);
+      }
+      
+    }
   </script>
 
 

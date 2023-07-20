@@ -14,8 +14,12 @@ class CartController extends Controller
     public function add_to_cart(Request $request)
     {
         $productID = $request->productid_id;
-        $quantity = $request->cart_qty;
         $user_id = Auth::user()->id;
+        if ($request->cart_qty) {
+            $quantity = $request->cart_qty;
+        } else {
+            $quantity = 1;
+        }
 
         // $cate_products = DB::table('tbl_category_products')->where('category_status', '1')->orderBy('category_id', 'asc')->get();
         // $brand_products = DB::table('tbl_brands_products')->where('brand_status', '1')->orderBy('brand_id', 'asc')->get();
@@ -43,7 +47,7 @@ class CartController extends Controller
             Session::put('message', 'Thêm sản phẩm vào giỏ hàng thành công');
         } else {
             $tatol = (int)$quantity + (int)$check_cart->quantity;
-            DB::table('tbl_brands_products')->where('cart_id', $check_cart->check_cart)->update(['quantity' => $tatol]);
+            DB::table('tbl_carts_product')->where('cart_id', $check_cart->cart_id)->update(['quantity' => $tatol]);
             Session::put('message', 'Thêm sản phẩm vào giỏ hàng thành công');
         }
 
@@ -55,6 +59,7 @@ class CartController extends Controller
     {
         if (Auth::user()) {
             $user_id = Auth::user()->id;
+            $user_cart = DB::table('tbl_carts_product')->where('user_id', $user_id)->orderBy('cart_id', 'desc')->get();
         }
 
         $cate_products = DB::table('tbl_category_products')->where('category_status', '1')->orderBy('category_id', 'asc')->get();
@@ -64,12 +69,31 @@ class CartController extends Controller
         $array1 = array_chunk($array, 1);
         $related_product = array_chunk($array1[0][0], 4);
 
-        $user_cart = DB::table('tbl_carts_product')->where('user_id', $user_id)->orderBy('cart_id', 'desc')->get();
 
         return view('front.content.page.show_cart')
             ->with('cate_products', $cate_products)
             ->with('brand_products', $brand_products)
             ->with('related_product', $related_product)
             ->with('user_cart', $user_cart);
+    }
+
+    public function update_qty($id, Request $request)
+    {
+        $quantity = $request->quantity;
+
+        if ($quantity == 0) {
+            DB::table('tbl_carts_product')->where('cart_id', $id)->delete();
+        } else {
+            DB::table('tbl_carts_product')->where('cart_id', $id)->update(['quantity' => $quantity]);
+        }
+        // Session::put('message', 'Cập nhật thương hiệu sản phẩm thành công');
+        return back();
+    }
+
+    public function delete_cart($id)
+    {
+        DB::table('tbl_carts_product')->where('cart_id', $id)->delete();
+
+        return back();
     }
 }

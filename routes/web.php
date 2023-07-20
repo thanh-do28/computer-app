@@ -86,12 +86,12 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::prefix('/home')->group(function () {
         Route::post('/add-to-cart', [CartController::class, 'add_to_cart'])->name('add-to-cart');
+        Route::get('/cart-user', [CartController::class, 'index'])->name('cart-user');
+        Route::post('/update-cart-qty/{id}', [CartController::class, 'update_qty'])->name('update-cart-qty');
+        Route::get('/delete-cart/{id}', [CartController::class, 'delete_cart'])->name('delete-cart');
     });
 });
 
-Route::prefix('/home')->group(function () {
-    Route::get('/cart-user', [CartController::class, 'index'])->name('cart-user');
-});
 
 
 
