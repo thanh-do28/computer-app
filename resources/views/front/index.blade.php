@@ -488,7 +488,7 @@
   <div class="modal fade" id="cartOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <form action="{{ route('add-to-cart') }}" method="POST">
+        <form action="{{ route('') }}" method="POST">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">thông báo</h5>
             <button type="button" class="close btn-login-add-close" data-dismiss="modal" aria-label="Close">
@@ -532,7 +532,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary btn-login-add">Order</button>
+            <button type="submit" class="btn btn-primary btn-order-add">Order</button>
           </div>
         </form>
       </div>
