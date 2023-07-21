@@ -69,7 +69,14 @@
                 <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
                 <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
                 <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                <li><a href="{{ route('cart-user') }}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                <li>
+                  <?php if(Auth::user()){ ?>
+                  <a href="{{ route('cart-user') }}"><i class="fa fa-shopping-cart"></i> Cart</a>
+                  <?php } else { ?>
+                  <a href="{{ route('cart') }}"><i class="fa fa-shopping-cart"></i> Cart</a>
+                  <?php } ?>
+
+                </li>
                 <?php if(Auth::user()) { ?>
                 <li class="dropdown-user">
                   <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -477,7 +484,60 @@
       </div>
     </div>
   </div>
-
+  {{-- nhập thông tin thanh toán --}}
+  <div class="modal fade" id="cartOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <form action="{{ route('add-to-cart') }}" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">thông báo</h5>
+            <button type="button" class="close btn-login-add-close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="register-req">
+              <p>Nhập địa chỉ nhận hàng</p>
+            </div>
+            <section id="cart_items">
+              <div class="container">
+                <div class="shopper-informations">
+                  <div class="row">
+                    <div class="col-sm-7">
+                      <div class="bill-to">
+                        <p>Bill To</p>
+                        <div class="form-one">
+                          {{ csrf_field() }}
+                          <input type="text" placeholder="Email*">
+                          <input type="text" placeholder="Phone*">
+                          <input type="text" placeholder="Name *">
+                          <input type="text" placeholder="Tỉnh/ Thành phố *">
+                          <input type="text" placeholder="Quận/ Huyện *">
+                          <input type="text" placeholder="Phường/ Xã *">
+                          <input type="text" placeholder="Address *">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-5">
+                      <div class="order-message">
+                        <p>Shipping Order</p>
+                        <textarea name="message" placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!--/#cart_items-->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-login-add">Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <script src={{ url("front/js/jquery.js") }}></script>
   <script src={{ url("front/js/bootstrap.min.js") }}></script>
@@ -529,15 +589,41 @@
     function checkboxCartUser(id) {
       var checkBox = document.getElementById(`checkbox-cart-user${id}`);
       if (checkBox.checked == true) {
-        let val = $(`#${id}`).val()
-        let val2 = $(`#cart_total_price${id}`).attr("price_cart_user")
-        console.log(val,"aa",val2);
+        let valID = $(`#${id}`).val()
+        let priceCart = $(`#cart_total_price${id}`).attr("price_cart_user")
+        let totalCartUser = $('#total_cart_user').text()
+        let taxcart = $('#tax_cart').text()
+
+        let sum = Number(priceCart) + Number(totalCartUser)
+        let taxCart = (priceCart / 100) * 10
+        let sumtax = Number(taxcart) + Number(taxCart)
+        let total = Number(sum) + Number(sumtax)
+        // const USDollar = new Intl.NumberFormat('en-US', {
+        //   style: 'currency',
+        //   currency: 'USD',
+        // });
+
+        $('#total_cart_user').text(sum)
+        $('#tax_cart').text(sumtax.toFixed(2))
+        $('#total_payment').text(total.toFixed(2))
+
       } else {
-        let val = $(`#${id}`).val()
-        let val2 = $(`#cart_total_price${id}`).attr("price_cart_user")
-        console.log("false",val,"bb",val2);
+        let valID = $(`#${id}`).val()
+        let priceCart = $(`#cart_total_price${id}`).attr("price_cart_user")
+        let totalCartUser = $('#total_cart_user').text()
+        let taxcart = $('#tax_cart').text()
+
+        let sum = Number(totalCartUser) - Number(priceCart)
+        let taxCart = (priceCart / 100) * 10
+        let sumtax = Number(taxcart) - Number(taxCart)
+        let total = Number(sum) + Number(sumtax)
+
+        $('#total_cart_user').text(sum)
+        $('#tax_cart').text(sumtax.toFixed(2))
+        $('#total_payment').text(total.toFixed(2))
+
       }
-      
+
     }
   </script>
 

@@ -93,6 +93,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+
 
 
 

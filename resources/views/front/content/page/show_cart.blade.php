@@ -135,13 +135,13 @@
       <div class="col-sm-6">
         <div class="total_area">
           <ul>
-            <li>Cart Sub Total <span><span>$</span><span>0</span></span></li>
-            <li>Eco Tax <span><span>$</span><span>0</span></span></li>
-            <li>Shipping Cost <span>Free</span></li>
-            <li>Total <span><span>$</span><span>0</span></span></li>
+            <li>Cart Sub Total <span><span>$</span><span id="total_cart_user">0</span></span></li>
+            <li>Eco Tax <span><span>$</span><span id="tax_cart">0</span></span></li>
+            <li>Shipping Cost <span id="shipping_fee">Free</span></li>
+            <li>Total <span><span>$</span><span id="total_payment">0</span></span></li>
+            <input name="" type="hidden" value="" />
           </ul>
-          <a class="btn btn-default update" href="">Update</a>
-          <a class="btn btn-default check_out" href="">Check Out</a>
+          <button type="button" class="btn btn-default check_out" data-toggle="modal" data-target="#cartOrder">Order</button>
         </div>
       </div>
     </div>

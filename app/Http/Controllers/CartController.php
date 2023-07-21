@@ -70,11 +70,27 @@ class CartController extends Controller
         $related_product = array_chunk($array1[0][0], 4);
 
 
+
         return view('front.content.page.show_cart')
             ->with('cate_products', $cate_products)
             ->with('brand_products', $brand_products)
             ->with('related_product', $related_product)
             ->with('user_cart', $user_cart);
+    }
+
+    public function cart()
+    {
+        $cate_products = DB::table('tbl_category_products')->where('category_status', '1')->orderBy('category_id', 'asc')->get();
+        $brand_products = DB::table('tbl_brands_products')->where('brand_status', '1')->orderBy('brand_id', 'asc')->get();
+        $related_products = DB::table('tbl_products')->inRandomOrder()->limit(8)->get();
+        $array = (array)$related_products;
+        $array1 = array_chunk($array, 1);
+        $related_product = array_chunk($array1[0][0], 4);
+
+        return view('front.content.page.show_cart_notification')
+            ->with('cate_products', $cate_products)
+            ->with('brand_products', $brand_products)
+            ->with('related_product', $related_product);
     }
 
     public function update_qty($id, Request $request)
