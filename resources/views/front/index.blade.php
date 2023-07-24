@@ -484,11 +484,14 @@
       </div>
     </div>
   </div>
+
+
+
   {{-- nhập thông tin thanh toán --}}
   <div class="modal fade" id="cartOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <form action="{{ route('') }}" method="POST">
+        <form action="{{ route("/") }}" method="POST">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">thông báo</h5>
             <button type="button" class="close btn-login-add-close" data-dismiss="modal" aria-label="Close">
@@ -515,6 +518,7 @@
                           <input type="text" placeholder="Quận/ Huyện *">
                           <input type="text" placeholder="Phường/ Xã *">
                           <input type="text" placeholder="Address *">
+                          <input id="id-array-cart" type="hidden" value="">
                         </div>
                       </div>
                     </div>
@@ -523,6 +527,16 @@
                         <p>Shipping Order</p>
                         <textarea name="message" placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
                       </div>
+                    </div>
+                    <div>
+                      <label for="atm-bank" class="col-md-5">
+                        <input type="checkbox" id="atm-bank" name="atm-bank" value="online_payment">
+                        thanh toán qua thẻ ngân hàng
+                      </label>
+                      <label for="Payment-delivery" class="col-md-5">
+                        <input type="checkbox" id="Payment-delivery" name="Payment-delivery" value="pay_later">
+                        thanh toán khi nhận hàng
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -586,10 +600,13 @@
       })
     })
 
+    var id_cart = [];
     function checkboxCartUser(id) {
+
       var checkBox = document.getElementById(`checkbox-cart-user${id}`);
       if (checkBox.checked == true) {
         let valID = $(`#${id}`).val()
+        id_cart.push(valID)
         let priceCart = $(`#cart_total_price${id}`).attr("price_cart_user")
         let totalCartUser = $('#total_cart_user').text()
         let taxcart = $('#tax_cart').text()
@@ -609,6 +626,8 @@
 
       } else {
         let valID = $(`#${id}`).val()
+        let index = id_cart.indexOf(valID)
+        id_cart.splice(index, 1);
         let priceCart = $(`#cart_total_price${id}`).attr("price_cart_user")
         let totalCartUser = $('#total_cart_user').text()
         let taxcart = $('#tax_cart').text()
@@ -623,8 +642,12 @@
         $('#total_payment').text(total.toFixed(2))
 
       }
-
     }
+
+
+    function add_order(){
+        $('#id-array-cart').val(id_cart);
+      }
   </script>
 
 

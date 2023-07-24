@@ -139,9 +139,8 @@
             <li>Eco Tax <span><span>$</span><span id="tax_cart">0</span></span></li>
             <li>Shipping Cost <span id="shipping_fee">Free</span></li>
             <li>Total <span><span>$</span><span id="total_payment">0</span></span></li>
-            <input name="" type="hidden" value="" />
           </ul>
-          <button type="button" class="btn btn-default check_out" data-toggle="modal" data-target="#cartOrder">Order</button>
+          <button type="button" onclick="add_order()" class="btn btn-default check_out" data-toggle="modal" data-target="#cartOrder">Order</button>
         </div>
       </div>
     </div>

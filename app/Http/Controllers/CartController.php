@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -111,5 +112,14 @@ class CartController extends Controller
         DB::table('tbl_carts_product')->where('cart_id', $id)->delete();
 
         return back();
+    }
+
+    public function add_order()
+    {
+        DB::beginTransaction();
+        try {
+            $id = "";
+        } catch (Exception $e) {
+        }
     }
 }
