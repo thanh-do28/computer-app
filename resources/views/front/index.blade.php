@@ -491,7 +491,7 @@
   <div class="modal fade" id="cartOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <form action="{{ route("/") }}" method="POST">
+        <form action="{{ route("add-order") }}" method="POST">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">thông báo</h5>
             <button type="button" class="close btn-login-add-close" data-dismiss="modal" aria-label="Close">
@@ -511,14 +511,20 @@
                         <p>Bill To</p>
                         <div class="form-one">
                           {{ csrf_field() }}
-                          <input type="text" placeholder="Email*">
-                          <input type="text" placeholder="Phone*">
-                          <input type="text" placeholder="Name *">
-                          <input type="text" placeholder="Tỉnh/ Thành phố *">
-                          <input type="text" placeholder="Quận/ Huyện *">
-                          <input type="text" placeholder="Phường/ Xã *">
-                          <input type="text" placeholder="Address *">
-                          <input id="id-array-cart" type="hidden" value="">
+                          <input type="text" name="address_phone" placeholder="Phone*">
+                          <input type="text" name="address_name" placeholder="Name *">
+                          <input type="text" name="address_conscious" placeholder="Tỉnh/ Thành phố *">
+                          <input type="text" name="address_district" placeholder="Quận/ Huyện *">
+                          <input type="text" name="address_ward" placeholder="Phường/ Xã *">
+                          <input type="text" name="address_address" placeholder="Address *">
+                          <input id="id-array-cart" name="address_idcart" type="hidden" value="">
+                          <div class="sever-checkbox">
+                            <span>lưu làm mặc định</span>
+                            <label class="switch">
+                              <input class="sever-address" name="sever_address" type="checkbox">
+                              <span class="slider round"></span>
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -530,11 +536,11 @@
                     </div>
                     <div>
                       <label for="atm-bank" class="col-md-5">
-                        <input type="checkbox" id="atm-bank" name="atm-bank" value="online_payment">
+                        <input type="checkbox" id="atm-bank" name="atm_bank" value="online_payment">
                         thanh toán qua thẻ ngân hàng
                       </label>
                       <label for="Payment-delivery" class="col-md-5">
-                        <input type="checkbox" id="Payment-delivery" name="Payment-delivery" value="pay_later">
+                        <input type="checkbox" id="Payment-delivery" name="payment_delivery" value="pay_later">
                         thanh toán khi nhận hàng
                       </label>
                     </div>
@@ -606,7 +612,7 @@
       var checkBox = document.getElementById(`checkbox-cart-user${id}`);
       if (checkBox.checked == true) {
         let valID = $(`#${id}`).val()
-        id_cart.push(valID)
+        id_cart.push(id)
         let priceCart = $(`#cart_total_price${id}`).attr("price_cart_user")
         let totalCartUser = $('#total_cart_user').text()
         let taxcart = $('#tax_cart').text()
@@ -626,7 +632,7 @@
 
       } else {
         let valID = $(`#${id}`).val()
-        let index = id_cart.indexOf(valID)
+        let index = id_cart.indexOf(id)
         id_cart.splice(index, 1);
         let priceCart = $(`#cart_total_price${id}`).attr("price_cart_user")
         let totalCartUser = $('#total_cart_user').text()
@@ -647,6 +653,7 @@
 
     function add_order(){
         $('#id-array-cart').val(id_cart);
+        console.log(id_cart);
       }
   </script>
 

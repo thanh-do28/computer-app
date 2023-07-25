@@ -89,6 +89,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/cart-user', [CartController::class, 'index'])->name('cart-user');
         Route::post('/update-cart-qty/{id}', [CartController::class, 'update_qty'])->name('update-cart-qty');
         Route::get('/delete-cart/{id}', [CartController::class, 'delete_cart'])->name('delete-cart');
+        Route::post("/add-order", [CartController::class, 'add_order'])->name('add-order');
     });
 });
 

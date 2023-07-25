@@ -111,15 +111,58 @@ class CartController extends Controller
     {
         DB::table('tbl_carts_product')->where('cart_id', $id)->delete();
 
+
         return back();
     }
 
-    public function add_order()
+    public function add_order(Request $request)
     {
+
+        $user_id = Auth::user()->id;
+        $id_cart = explode(',', $request->address_idcart);
         DB::beginTransaction();
         try {
-            $id = "";
+            $data_address = array();
+            $data_address['user_id'] = $user_id;
+            $data_address['address_name'] = $request->address_name;
+            $data_address['address_phone'] = $request->address_phone;
+            $data_address['address_conscious'] = $request->address_conscious;
+            $data_address['address_district'] = $request->address_district;
+            $data_address['address_ward'] = $request->address_ward;
+            $data_address['address_address'] = $request->address_address;
+            if ($request->sever_address == "on") {
+                $data_address['sever_address'] = 1;
+            } else {
+                $data_address['sever_address'] = 0;
+            }
+            $address_id = DB::table('tbl_address_order')->insertGetId($data_address);
+
+            foreach ($id_cart as $key => $value) {
+                $data_cart = DB::table('tbl_carts_product')->where('cart_id', $value)->first();
+                $data_order = array();
+                $data_order['user_id'] = $user_id;
+                $data_order['address_id'] = $address_id;
+                $data_order['product_id'] = $data_cart->product_id;
+                $data_order['order_name'] = $data_cart->cart_name;
+                $data_order['order_quantity'] = $data_cart->quantity;
+                $data_order['order_price'] = $data_cart->cart_price;
+                $data_order['order_image'] = $data_cart->cart_image;
+                $data_order['order_message'] = $request->message;
+                if ($request->atm_bank) {
+                    $data_order['order_payments'] = $request->atm_bank;
+                } elseif ($request->payment_delivery) {
+                    $data_order['order_payments'] = $request->payment_delivery;
+                }
+                DB::table('tbl_order_product')->insert($data_order);
+                DB::table('tbl_carts_product')->where('cart_id', $value)->delete();
+            }
+
+            DB::commit();
+            return back();
         } catch (Exception $e) {
+            DB::rollBack();
+
+            return $e->getMessage();
         }
     }
 }

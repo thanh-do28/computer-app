@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('address_district');
             $table->string('address_ward');
             $table->string('address_address');
+            $table->integer('sever_address');
             $table->timestamps();
         });
     }
